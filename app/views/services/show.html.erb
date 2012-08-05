@@ -1,0 +1,59 @@
+<% @title = @service.title %>
+<div class="search">
+<div class="row">
+<div class="span9">
+<form class="well form-search">
+<%= form_tag service_path, :method => :get do %>
+  <h4>Search for nearby <%= @service.title.downcase %> services by City, State or Zip:</h4> 
+    <%= text_field_tag :search, params[:search], :placeholder => "e.g. Brooklyn, NY or 11223", :style => "width:300px;" %>
+    <%= submit_tag "Search", :name => nil %>
+<% end %>
+</div>
+</div>
+</div>
+</form>
+<%= gmaps4rails(@json) %>
+<br>
+
+<h2><center><%= @service.title %></h2></center>
+<br>
+
+<br>
+<ol>
+<% if !@providers.empty? %>
+<% @providers.each do |provider| %>
+
+<li>
+<%= link_to provider.name, provider_path(provider) %><br>
+<%= provider.street %> <%= provider.city%> <%= provider.state%> <%= provider.zip%> <%= number_to_phone(provider.phone) %> <%= link_to 'website', provider.website  %>
+</li>
+
+
+<div class="vote">
+<div align="right">
+	<%= pluralize provider.reputation_value_for(:votes).to_i, "vote" %>
+	<%= link_to "up", vote_provider_path(provider, type: "up"), method: "post" %>
+| 	<%= link_to "down", vote_provider_path(provider, type: "down"), method: "post" %>
+
+
+</div>
+</div>
+
+<hr>
+<% end %>
+
+
+
+<%= yield :scripts %>
+
+
+<% else %>
+Sorry there were no providers found near the address you specified.
+<%end%>
+</ol>
+
+
+
+
+
+

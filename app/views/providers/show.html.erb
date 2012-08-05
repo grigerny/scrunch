@@ -1,0 +1,72 @@
+<% @title = @provider.name %>
+<br>
+
+
+
+
+<%= link_to "Back to list of providers", service_path(@provider.service_id) %><br><br>
+<div>
+
+<h4><%= @provider.name %></h4><br>
+<%= @provider.street %><br>
+<%= @provider.city %>,  <%= @provider.state %> <%= @provider.zip %><br>
+<%= number_to_phone(@provider.phone)  %><br>
+<%= link_to 'Company Website', @provider.website %><br>
+Insured / licensed: <%= @provider.insured %>
+
+<div class="row">
+<div class="span9">
+<div class="offset9 offset5">
+<div class="googlemap">
+	<%= gmaps("markers" => {"data" => @json}, "map_options" => {"processing" => "json", "auto_adjust" => true, "auto_zoom" => false, "zoom" => 11}) %>
+	<%= yield :scripts %>
+</div>
+</div>
+</div>
+</div>
+<br>
+
+<div class="topline"></div>
+<br><br>
+</div>
+
+<%#--------start of comments iteration section-------------------- %>
+
+<center><h4> Reviews for <%= @provider.name %></h4></center>
+<br>
+
+
+<% @provider.comments.reverse.each do |comment| %>
+<%= gravatar_for comment.user.email if comment.user %>
+
+
+<div style="margin-left: 7em; margin-top: -4em;">
+<b><%= link_to comment.user.username, comment.user if comment.user %>:</b>
+<%= comment.body %>
+
+
+
+<div class="comment-ago">
+<div align="right">
+<%= time_ago_in_words(comment.created_at) %> ago
+</div>
+</div>
+</div>
+<hr>
+<br><br><br>
+
+<% end %>
+
+
+
+<%#--------start of comments form section-------------------- %>
+
+<h4>What was your experience with <%= @provider.name %>?</h4>
+	
+		<%= form_for ([@provider, @provider.comments.build]) do |f| %>
+		  <div class="field">
+		<%= f.text_area :body, :placeholder => "Add a comment...", :rows => 5, :style => "width:700px;" %></br>
+		  </div>
+		<%= f.submit 'Add Comment' %>
+		<% end %>
+ 

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= @title %></title>
+<!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
+  <![endif]-->
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+	
+<div class="topline"></div>	
+<div class="container">	
+	
+	<%= link_to 'Home', root_path %> |
+	<% if user_signed_in? %>
+	  Signed in as <strong><%= current_user.username %></strong> |
+	  <%= link_to 'Edit profile', edit_user_registration_path %> |
+	  <%= link_to "Logout", destroy_user_session_path, method: :delete %>
+	<br><br>
+	<% else %>
+	  <%= link_to "Sign up", new_user_registration_path %> |
+	  <%= link_to "Login", new_user_session_path %> |
+	<%= link_to "Submit your service", '/providers/new' %>
+	<% flash.each do |name, msg| %>
+	<%= content_tag :div, msg, id: "flash_#{name}" %>
+	<% end %>
+	
+	<div align="right">
+	<%= link_to image_tag('fbsignin.gif'), user_omniauth_authorize_path(:facebook) %>
+	</div>
+
+   <% end %>
+	<h2>ServiceCrunch</h2>
+
+	<div class="row">
+		<div class="span9">
+			<div class="topline"></div>
+		<%= yield %>
+		
+	
+		</div>	
+	</div>
+</div>
+<div class="beforebottom">
+<div class="submit-service">
+<%= link_to 'Contact us', contacts_path %>
+</div>
+</div>
+
+<div class="bottom">
+
+</div>
+</body>
+</html>

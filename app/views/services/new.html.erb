@@ -1,0 +1,13 @@
+<% @title = "Add New Service" %>
+<h3>Add New Service:</h3>
+<br>
+
+<%=form_for @service do |f| -%>
+<%= f.label :title, 'Title of service:'  %>
+<%= f.text_field :title %><br>
+
+<%= f.label :category, "Create category:" %>
+<%= f.text_field :category %><br>
+
+<%= submit_tag "Send" %>
+<% end -%>

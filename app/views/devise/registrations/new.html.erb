@@ -1,0 +1,37 @@
+<% @title = "Sign up"%>
+
+<div class="errormsg">
+<%= form_for(@user) do |f| %>
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2> Oops! <%= pluralize(@user.errors.count, "issue") %> came up, please fix to sign up :) </h2>	
+<br>
+
+      <ol>
+      <% @user.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ol>
+    </div>
+  <% end %>
+</div>
+<h2>Sign up</h2>
+<br>
+  <div>
+  <%= f.text_field :username, :placeholder => "create username" %></div>
+	
+  <div>
+  <%= f.email_field :email, :placeholder => "enter your email address" %></div>
+
+	<% if f.object.password_required?%>
+  <div>
+  <%= f.password_field :password, :placeholder => "enter password" %></div>
+
+  <div>
+  <%= f.password_field :password_confirmation, :placeholder => "confirm password" %></div>
+<% end %>
+
+  <div><%= f.submit "Sign up" %></div>
+<% end %>
+
+<%= render "devise/shared/links" %>

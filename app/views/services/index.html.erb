@@ -1,0 +1,44 @@
+<% @title = 'ServiceCrunch' %>
+
+<div class="search">
+<form class="well form-search">
+	<h4>What type of service are you looking for?</h4>
+ <%= form_tag services_path, :method => 'get' do %>
+	<%= text_field_tag :search, params[:search], :placeholder => "e.g. landscaping...", :style => "width:300px;" %>
+	<%= submit_tag "Search", :name => nil %>	
+<%end%>
+</div>
+
+
+<% @services.each do |service| %>  
+    <p><%= link_to "#{service.title}", service %></p>
+<% end %>
+</form>
+
+<div class="row">
+<h2><center>Categories</center></h2>
+<div class="span6">
+<br>
+	
+
+
+	
+<u><h4>Construction Services </h4></u>
+<% Service.where(:category => "construction").each do |service| %>
+<%= link_to service.title.capitalize, service %><br>
+<% end %>
+
+<br>
+
+<u><h4>Pet Services </h4></u>
+<% Service.where(:category => "pet").each do |service| %>
+<%= link_to service.title.capitalize, service %><br>
+<% end %>
+<br><br>
+</div>
+</div>
+
+
+
+
+</div>

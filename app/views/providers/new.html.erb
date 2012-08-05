@@ -1,0 +1,62 @@
+<% @title = "Submit your service"%>
+
+<h3>Submit your service to ServiceCrunch:</h3>
+<br>
+
+<%= form_for(@provider) do |f| %>
+  <% if @provider.errors.any? %>
+    <div id="error_explanation">
+      <h2> Hey! We found <%= pluralize(@provider.errors.count, "issue") %> with your entry, please try again.</h2>	
+<br>
+      <ol>
+      <% @provider.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ol>
+    </div>
+  <% end %>
+
+
+<%= f.label "Type of service" %>
+<%= f.collection_select :service_id, Service.all, :id, :title %><br><br>
+
+<%= f.label :insured, 'Insured/Licensed? (Yes or No)' %>
+<%= f.text_field :insured %>
+
+
+<%= f.label :name %>
+<%= f.text_field :name, :style => "width:660px;" %>
+
+<%= f.label :street, 'Address' %>
+<%= f.text_field :street, :style => "width:660px;" %>
+
+<%= f.label :city %>
+<%= f.text_field :city %>
+
+<%= f.label :state %>
+<%= f.text_field :state %>
+
+<%= f.label :zip %>
+<%= f.text_field :zip %>
+
+<%= f.label :phone %>
+<%= f.text_field :phone %>
+
+<%= f.label :website %>
+<%= f.text_field :website, :style => "width:660px;", :placeholder => "start with http://"  %><br>
+
+<div class="labels">
+<span id="char-count">40</span> - 
+
+
+<%= f.label :bio, 'Add a tagline for your service:' %> 
+<div class="actions">
+</div>	
+
+<div class="field">
+<%= f.text_area :bio, :rows => 4, :style => "width:660px;", :maxlength => 140 %>
+</div>
+
+<br>
+<%= f.submit "Submit" %>  
+<% end -%>
